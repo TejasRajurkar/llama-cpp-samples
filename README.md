@@ -1,4 +1,4 @@
-# Local LLMs with llama.cpp - Workshop
+# Local LLMs with llama.cpp - Hack Day Workshop
 
 A comprehensive, beginner-friendly workshop for learning to work with local Large Language Models using llama.cpp and Python.
 
@@ -26,7 +26,6 @@ This workshop teaches you how to run and interact with LLMs locally on your mach
 - **4GB+ RAM** (8GB+ recommended)
 - **10GB free disk space** (for model storage)
 - **Prior experience working with LLMs**
-- 
 
 ### Optional
 
@@ -45,15 +44,21 @@ cd llama-cpp-samples
 
 ### 2. Install Dependencies
 
+**CPU-only** (works everywhere):
 ```bash
-pip install -r requirements.txt
+pip install llama-cpp-python
 ```
 
-**For GPU acceleration** (NVIDIA GPUs only):
+**With GPU** (NVIDIA CUDA):
 ```bash
-# Install with CUDA support
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python --force-reinstall --no-cache-dir
 ```
+
+**With GPU** (Apple Metal):
+```bash
+CMAKE_ARGS="-DLLAMA_METAL=on" pip install llama-cpp-python --force-reinstall --no-cache-dir
+```
+
 
 ### 3. Download a Model
 
