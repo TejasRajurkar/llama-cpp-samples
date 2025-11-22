@@ -11,7 +11,7 @@ This workshop teaches you how to run and interact with LLMs locally on your mach
 - Stream responses in real-time
 - Build conversational AI
 - Fine-tune generation parameters
-- Implement function calling / tool use
+- Implement tool calling / tool use
 - Process batches efficiently
 
 **Tech Stack**: Python 3.8+, llama-cpp-python
@@ -137,11 +137,11 @@ python 05_parameter_tuning.py
 
 ---
 
-### Module 6: Function Calling
-**File**: [`06_function_calling.py`](06_function_calling.py)
+### Module 6: Tool Calling
+**File**: [`06_tool_calling.py`](06_function_calling.py)
 **Run it**:
 ```bash
-python 06_function_calling.py
+python 06_tool_calling.py
 ```
 
 **Key Takeaway**: Enable LLMs to use tools and interact with external systems.

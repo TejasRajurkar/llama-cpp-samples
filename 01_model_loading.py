@@ -18,16 +18,11 @@ def main():
         n_gpu_layers=0,       # 0=CPU, -1=all GPU
         verbose=False
     )
-    print("✓ Model loaded\n")
+    print("\n✓ Model loaded\n")
 
     # Show model info
     print(f"Context size: {llm.n_ctx()} tokens (~{int(llm.n_ctx() * 0.75)} words)")
     print(f"Vocabulary: {llm.n_vocab()} tokens\n")
-
-    # Test generation
-    print("Testing model...")
-    output = llm("Say hello in one sentence.", max_tokens=20)
-    print(f"Response: {output['choices'][0]['text']}")
 
     print("\n✓ Module 1 complete")
 

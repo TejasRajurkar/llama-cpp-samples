@@ -19,28 +19,10 @@ def main():
     check_model_exists()
     llm = Llama(model_path=str(MODEL_PATH), n_ctx=2048, verbose=False)
 
-    # Example 1: Basic generation
-    print("1. Basic generation")
-    output = llm("What is Python?", max_tokens=50, temperature=0.7)
+    # Basic generation
+    print("\n1. Basic generation\n")
+    output = llm("What are large language models?", max_tokens=50)
     print(f"Response: {output['choices'][0]['text']}")
-    print_stats(output)
-
-    # Example 2: Temperature effect
-    print("\n2. Temperature: 0.0 (deterministic)")
-    output = llm("The best thing about coding is", max_tokens=30, temperature=0.0)
-    print(f"Response: {output['choices'][0]['text']}")
-    print_stats(output)
-
-    print("\n3. Temperature: 1.5 (creative)")
-    output = llm("The best thing about coding is", max_tokens=30, temperature=1.5)
-    print(f"Response: {output['choices'][0]['text']}")
-    print_stats(output)
-
-    # Example 3: Max tokens
-    print("\n4. Max tokens: 20 (short)")
-    output = llm("Explain recursion.", max_tokens=20, temperature=0.7)
-    print(f"Response: {output['choices'][0]['text']}")
-    print(f"Finish reason: {output['choices'][0]['finish_reason']}")
     print_stats(output)
 
     print("\n✓ Module 2 complete")

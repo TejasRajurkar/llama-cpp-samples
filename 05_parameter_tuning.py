@@ -8,6 +8,7 @@ from config import MODEL_PATH, check_model_exists
 
 def generate(llm, prompt, **kwargs):
     """Generate and print with stats"""
+    print(f"Prompt: {prompt}")
     output = llm(prompt, **kwargs)
     response = output['choices'][0]['text']
     print(f"Response: {response}")

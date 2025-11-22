@@ -6,81 +6,95 @@ Learn: Multi-turn conversations, message roles, history management
 from llama_cpp import Llama
 from config import MODEL_PATH, check_model_exists
 
-def print_chat_stats(response):
-    """Print chat completion statistics"""
-    usage = response['usage']
-    print(f"[Stats] Prompt: {usage['prompt_tokens']} | "
-          f"Completion: {usage['completion_tokens']} | "
-          f"Total: {usage['total_tokens']}")
-
 def main():
     print("=== Module 4: Chat Completion ===\n")
 
     check_model_exists()
     llm = Llama(model_path=str(MODEL_PATH), n_ctx=2048, verbose=False)
 
-    # Example 1: System message effect
-    print("1. Without system message")
-    messages = [
-        {"role": "user", "content": "What is a variable?"}
-    ]
-    response = llm.create_chat_completion(messages=messages, max_tokens=50)
-    print(f"Response: {response['choices'][0]['message']['content']}")
-    print_chat_stats(response)
+    # Interactive conversation loop with history
+    print("\n" + "="*60)
+    print("\nInteractive conversation loop")
+    print("\nType 'exit' to quit the conversation")
+    print("\n" + "="*60)
 
-    print("\n2. With system message (Python tutor)")
-    messages = [
-        {"role": "system", "content": "You are a concise Python tutor."},
-        {"role": "user", "content": "What is a variable?"}
-    ]
-    response = llm.create_chat_completion(messages=messages, max_tokens=500)
-    print(f"Response: {response['choices'][0]['message']['content']}")
-    print_chat_stats(response)
-
-    # Example 2: Multi-turn conversation
-    print("\n3. Multi-turn conversation")
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant."}
+    # Initialize conversation with system message
+    conversation_messages = [
+        {"role": "system", "content": "You are a helpful assistant. Keep responses concise and friendly."}
     ]
 
-    # Turn 1
-    messages.append({"role": "user", "content": "What are list comprehensions?"})
-    print("\nUser: What are list comprehensions?")
+    # Use iterator-based for loop for chat conversation
+    for user_input in iter(lambda: input("\nYou: ").strip(), None):
+        # Check for exit command
+        if user_input.lower() == "exit":
+            # Display conversation summary
+            print("\n" + "="*60)
+            print("=== Conversation Summary ===")
+            print("="*60)
 
-    response = llm.create_chat_completion(messages=messages, max_tokens=60)
-    assistant_reply = response['choices'][0]['message']['content']
-    print(f"Assistant: {assistant_reply}")
-    print_chat_stats(response)
+            # Calculate statistics
+            user_msgs = [m for m in conversation_messages if m['role'] == 'user']
+            assistant_msgs = [m for m in conversation_messages if m['role'] == 'assistant']
 
-    messages.append({"role": "assistant", "content": assistant_reply})
+            print(f"\n📊 Statistics:")
+            print(f"   - Total messages: {len(user_msgs) + len(assistant_msgs)}")
+            print(f"   - User messages: {len(user_msgs)}")
+            print(f"   - Assistant messages: {len(assistant_msgs)}")
 
-    # Turn 2
-    messages.append({"role": "user", "content": "Show me an example."})
-    print("\nUser: Show me an example.")
+            # Calculate total tokens using tokenizer
+            total_tokens = 0
+            for msg in conversation_messages:
+                tokens = llm.tokenize(msg['content'].encode('utf-8'))
+                total_tokens += len(tokens)
+            print(f"   - Total tokens: {total_tokens}")
 
-    response = llm.create_chat_completion(messages=messages, max_tokens=600)
-    assistant_reply = response['choices'][0]['message']['content']
-    print(f"Assistant: {assistant_reply}")
-    print_chat_stats(response)
+            # Display conversation history
+            print(f"\n📜 Conversation History:\n")
+            turn = 1
+            for i in range(1, len(conversation_messages)):  # Skip system message
+                msg = conversation_messages[i]
+                if msg['role'] == 'user':
+                    print(f"   [Turn {turn}]")
+                    print(f"   You: {msg['content']}")
+                elif msg['role'] == 'assistant':
+                    print(f"   Assistant: {msg['content']}\n")
+                    turn += 1
 
-    # Example 3: Streaming chat
-    print("\n4. Streaming chat completion")
-    messages = [
-        {"role": "user", "content": "Explain functions in one sentence."}
-    ]
+            print("\nGoodbye! 👋")
+            break
 
-    print("Response: ", end="", flush=True)
-    stream = llm.create_chat_completion(messages=messages, max_tokens=40, stream=True)
+        # Skip empty inputs
+        if not user_input:
+            print("Please enter a message or type 'exit' to quit.")
+            continue
 
-    full_response = ""
-    for chunk in stream:
-        delta = chunk['choices'][0]['delta']
-        if 'content' in delta:
-            token = delta['content']
-            print(token, end="", flush=True)
-            full_response += token
+        # Add user message to conversation history
+        conversation_messages.append({"role": "user", "content": user_input})
 
-    print(f"\n[Stats] Response length: {len(full_response)} chars")
+        # Get assistant response with full conversation history
+        print("Assistant: ", end="", flush=True)
+        response = llm.create_chat_completion(
+            messages=conversation_messages,
+            max_tokens=200,
+            stream=True
+        )
+
+        # Collect and display streaming response
+        assistant_reply = ""
+        for chunk in response:
+            delta = chunk['choices'][0]['delta']
+            if 'content' in delta:
+                token = delta['content']
+                print(token, end="", flush=True)
+                assistant_reply += token
+
+        print()  # New line after response
+
+        # Add assistant response to conversation history
+        conversation_messages.append({"role": "assistant", "content": assistant_reply})
+
+        # Show conversation stats
+        print(f"[History: {len(conversation_messages)} messages]")
 
     print("\n✓ Module 4 complete")
 
