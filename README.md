@@ -64,7 +64,7 @@ CMAKE_ARGS="-DLLAMA_METAL=on" pip install llama-cpp-python --force-reinstall --n
 
 Download a GGUF model and place it in the `models/` directory.
 
-**Recommended for beginners**: Llama-2-7B-Chat Q4_K_M (~4GB)
+**Recommended for beginners**: qwen2.5-3b-instruct-q2_k.gguf (~1.38GB)
 
 **Download from Hugging Face**:
 ```bash
