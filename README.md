@@ -266,7 +266,7 @@ Models have their own licenses - check individual model licenses before use.
 
 - **llama.cpp** by Georgi Gerganov - Amazing C++ implementation
 - **llama-cpp-python** by Andrei Betlen - Excellent Python bindings
-- **Qwen AI** - For the Llama model family
+- **Qwen AI** - For the Qwen model family
 
 ---
 
