@@ -25,6 +25,7 @@ This workshop teaches you how to run and interact with LLMs locally on your mach
 - **Python 3.8 or higher** installed
 - **4GB+ RAM** (8GB+ recommended)
 - **10GB free disk space** (for model storage)
+- **cmake and C++ compiler**
 - **Prior experience working with LLMs**
 
 ### Optional

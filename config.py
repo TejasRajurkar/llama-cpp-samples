@@ -8,8 +8,8 @@ from pathlib import Path
 
 # Path to your GGUF model file
 # Download a model and place it in the models/ directory
-# Recommended: Llama-2-7B-Chat Q4_K_M (~4GB)
-# Download from: https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF
+# Recommended: qwen2.5-3b-instruct-q2_k.gguf
+# Download from: https://huggingface.co/Qwen/Qwen2.5-3B-Instruct-GGUF/resolve/main/qwen2.5-3b-instruct-q2_k.gguf?download=true
 MODEL_PATH = Path("models/qwen2.5-3b-instruct-q2_k.gguf")
 
 # Context window size (number of tokens the model can process)
